@@ -9,7 +9,6 @@ app = Flask(__name__)
 def gibbon_landing():
     return "Gibbon landing"
 
-
 @app.route("/gibbon404")
 def gibbon_404():
     return "Gibbon 404"
