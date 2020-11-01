@@ -5,7 +5,7 @@ app = Flask(__name__)
 # #######
 # Admin Screens
 # #######
-@app.route("/)
+@app.route("/")
 def gibbon_landing():
     return "Gibbon landing"
 
