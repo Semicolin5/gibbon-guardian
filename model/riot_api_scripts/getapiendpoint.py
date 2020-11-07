@@ -1,6 +1,7 @@
 import pandas as pandas
 import requests
 
+# from typing_extensions import TypedDict
 
 
 EUROPEAN_SERVER = 'https://EUW1.api.riotgames.com'
@@ -23,25 +24,53 @@ def summoner_name_to_summoner_id(summoner_name: str) -> str:
     return data['id']
 
 
-def summoner_champion_winrate(summoner_name: str, champion_id: int) -> str:
+def summoner_champion_match_history(summoner_name: str, champion_id: int) -> str:
     account_id = summoner_name_to_account_id(summoner_name)
-    query = f'https://EUW1.api.riotgames.com/lol/match/v4/matchlists/by-account/{account_id}?champion={champion_id}&api_key={API_KEY}'
+    query = f'{EUROPEAN_SERVER}/lol/match/v4/matchlists/by-account/{account_id}?champion={champion_id}&api_key={API_KEY}'
     response = requests.get(query)
     data = response.json()
     return data  
+
+# TODO : sort out pythons shitty type hintings (why is it so bad?)
+def winrate_across_matches(matches) -> str:
+    for match in matches:
+        match_id = match['gameId']
+        query = f'{EUROPEAN_SERVER} /lol/match/v4/matches/{match_id}?api_key={API_KEY}'
+        response = requests.get(query)
+        data = response.json()
+
+    return "50%"
+
+
+
 
 zac = 112
 vi = 109
 warwick = 17
 
-# LeftTeh_account_id = summoner_name_to_account_id('LeftTeh')
-# LeftTeh_summoner_id = summoner_name_to_summoner_id('LeftTeh')
+
+# This is the big method that we will call
+def summoner_champion_stats(summoner_name: str, champion_id: str) -> str:
+    
+    match_history = summoner_champion_match_history(summoner_name, champion_id)
+
+    # For now our duff stats
+    stats = {
+        'summoner_name': summoner_name,
+        'champion': champion_id,
+        'mastery': "He's pretty alright at it",
+        'games': "100",
+        'winrate': "51.2%"
+    }
+
+    return stats
 
 
-freeChampQueryLOL = '/lol/platform/v3/champion-rotations'
-# url = f'https://EUW1.api.riotgames.com/lol/summoner/v4/summoners/by-name/LeftTeh?api_key={API_KEY}'
-# url2 = f'https://EUW1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{encryptedSummonerId}?api_key={API_KEY}'
-# url3 = f'https://EUW1.api.riotgames.com/lol/league/v4/entries/by-summoner/{encryptedSummonerId}?api_key={API_KEY}'
+statistics = summoner_champion_match_history('LeftTeh', 20)
+print(statistics)
 
 
-print(summoner_champion_winrate('LeftTeh', 20))
+print("--------")
+print(statistics['totalGames'])
+print(len(statistics['matches']))
+
