@@ -1,24 +1,47 @@
 import pandas as pandas
 import requests
 
-API_KEY='RGAPI-77d1fe4a-f9ad-4df0-bd61-22844dbeee39'
 
 
-url = 'https://EUW1.api.riotgames.com/lol/summoner/v4/summoners/by-name/LeftTeh?api_key=RGAPI-77d1fe4a-f9ad-4df0-bd61-22844dbeee39'
-url2 = 'https://EUW1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/l7Pmpyu4eeiY3qp26NXtgwf-8zefZtIpD7CAiRpCrenMQxA?api_key=RGAPI-77d1fe4a-f9ad-4df0-bd61-22844dbeee39'
+EUROPEAN_SERVER = 'https://EUW1.api.riotgames.com'
+API_KEY=''
+
+# Types of requests
+
+# Get account ID using summoner name
+def summoner_name_to_account_id(summoner_name: str) -> str:
+    query = f'{EUROPEAN_SERVER}/lol/summoner/v4/summoners/by-name/{summoner_name}?api_key={API_KEY}'
+    response = requests.get(query)
+    data = response.json()
+    return data['accountId']
 
 
-response = requests.get(url)
+def summoner_name_to_summoner_id(summoner_name: str) -> str:
+    query = f'{EUROPEAN_SERVER}/lol/summoner/v4/summoners/by-name/{summoner_name}?api_key={API_KEY}'
+    response = requests.get(query)
+    data = response.json()
+    return data['id']
 
-#print(response.text)
 
-data = response.json()
+def summoner_champion_winrate(summoner_name: str, champion_id: int) -> str:
+    account_id = summoner_name_to_account_id(summoner_name)
+    query = f'https://EUW1.api.riotgames.com/lol/match/v4/matchlists/by-account/{account_id}?champion={champion_id}&api_key={API_KEY}'
+    response = requests.get(query)
+    data = response.json()
+    return data  
 
-print(data)
+zac = 112
+vi = 109
+warwick = 17
 
-print("---")
-boogla = requests.get(url2)
-data2 = boogla.json()
+# LeftTeh_account_id = summoner_name_to_account_id('LeftTeh')
+# LeftTeh_summoner_id = summoner_name_to_summoner_id('LeftTeh')
 
-print(data2)
 
+freeChampQueryLOL = '/lol/platform/v3/champion-rotations'
+# url = f'https://EUW1.api.riotgames.com/lol/summoner/v4/summoners/by-name/LeftTeh?api_key={API_KEY}'
+# url2 = f'https://EUW1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{encryptedSummonerId}?api_key={API_KEY}'
+# url3 = f'https://EUW1.api.riotgames.com/lol/league/v4/entries/by-summoner/{encryptedSummonerId}?api_key={API_KEY}'
+
+
+print(summoner_champion_winrate('LeftTeh', 20))
