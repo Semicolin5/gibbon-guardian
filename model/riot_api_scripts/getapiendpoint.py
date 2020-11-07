@@ -5,7 +5,7 @@ import requests
 
 
 EUROPEAN_SERVER = 'https://EUW1.api.riotgames.com'
-API_KEY=''
+API_KEY = 'RGAPI-0df010c2-7956-4e96-a7ad-0b9542a78b07'
 
 # Types of requests
 
