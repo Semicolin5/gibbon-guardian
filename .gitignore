@@ -1,4 +1,6 @@
+# Ignore the top level config.json as this contains sensitive information - leave the template_config.json
+config.json
+
 # Ignore contents of the data dragon folder except the ReadMe and License
 DataDragon/*
 !DataDragon/README.md
-!DataDragon/LICENSE
