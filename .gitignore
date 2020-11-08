@@ -1,0 +1,4 @@
+# Ignore contents of the data dragon folder except the ReadMe and License
+DataDragon/*
+!DataDragon/README.md
+!DataDragon/LICENSE
